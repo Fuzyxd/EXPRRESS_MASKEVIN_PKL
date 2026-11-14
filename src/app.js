@@ -1,5 +1,7 @@
 import express from "express";
 import routes from "./routes.js";
+import apiCache from "apicache";
+import errorHandler from "./middleware/global_error_middleware.js";
 
 class OurFirstClass {
     app;
@@ -9,6 +11,14 @@ class OurFirstClass {
         this.port = port;
         this.app = express();
         this.app.use(express.json());
+
+        this.configureAssets();
+        this.setupLibrary();
+        this .setupRoutes();
+            this.app.use(errorHandler);
+            express.json();
+            express.urlencoded();
+            apiCache.middleware("5 minutes");
     }
 
     setupRoutes() {
@@ -28,7 +38,6 @@ class OurFirstClass {
     }
 
     start() {
-        this.setupRoutes();
         this.app.listen(this.port, () => {
             console.info(`Server is running on port ${this.port}`);
         });
@@ -36,6 +45,4 @@ class OurFirstClass {
 
 }
 
-const ourFirstClassInstance = new OurFirstClass(3000);
-
-ourFirstClassInstance.start();
+export default OurFirstClass;
